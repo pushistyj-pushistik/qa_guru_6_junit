@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 
 import com.codeborne.selenide.WebDriverRunner;
+import domain.TypesOfTranslation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,17 +24,14 @@ public class TranslateTest {
             "Бегемот | Hippo"
     },
     delimiter = '|')
-
     @ParameterizedTest (name = "Проверка перевода слова {0} с русского на английский")
     void translate(String testData, String results) {
         //Предусловие
         Selenide.open("https://translate.google.com/?sl=ru&tl=en&op=translate");
-
         //Шаги
         $(".er8xn").click();
         $(".er8xn").setValue(testData);
-
-       // ОР
+        // ОР
         $$(".Q4iAWc")
                 .find(Condition.text(results))
                 .shouldBe(visible);
@@ -43,43 +41,27 @@ public class TranslateTest {
             "испанский",
             "тайский"
     })
-
     @ParameterizedTest(name = "Проверка наличия {0} языка оригинала")
     void languageSearch(String language) {
         //Предусловие
         Selenide.open("https://translate.google.com");
-
         //Шаги
         $(".VfPpkd-Bz112c-RLmnJb").click();
-
         //ОР
         $$(".vSUSRc")
                 .find(Condition.text(language))
                 .shouldBe(visible);
     }
 
-   public enum TypesOfTranslation {
-       Text("Текст"), Doc("Документы"), Web("Сайты");
-
-       public final String rusName;
-
-       TypesOfTranslation(String rusName) {
-           this.rusName = rusName;
-       }
-   }
-
     @EnumSource(TypesOfTranslation.class)
-
     @ParameterizedTest(name = "Проверка вида {0} перевода")
     void typesOfTranslationTest(TypesOfTranslation testData) {
         //Предусловие
         Selenide.open("https://translate.google.com");
-
         //Шаги
         $$(".U0xwnf")
                 .find(Condition.text(String.valueOf(testData.rusName)))
                 .click();
-
         //ОР
         Assertions.assertEquals(
                 1,
