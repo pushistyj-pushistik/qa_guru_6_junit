@@ -39,12 +39,12 @@ public class TranslateTest {
                 .shouldBe(visible);
     }
 
-
-    @ParameterizedTest(name = "Проверка наличия {0} языка оригинала")
     @ValueSource(strings = {
             "испанский",
             "тайский"
     })
+
+    @ParameterizedTest(name = "Проверка наличия {0} языка оригинала")
     void languageSearch(String language) {
         //Предусловие
         Selenide.open("https://translate.google.com");
@@ -58,9 +58,8 @@ public class TranslateTest {
                 .shouldBe(visible);
     }
 
-
    public enum TypesOfTranslation {
-        Doc("Документы"), Text("Текст"), Web("Сайты");
+       Text("Текст"), Doc("Документы"), Web("Сайты");
 
        public final String rusName;
 
@@ -71,7 +70,7 @@ public class TranslateTest {
 
     @EnumSource(TypesOfTranslation.class)
 
-    @ParameterizedTest()
+    @ParameterizedTest(name = "Проверка вида {0} перевода")
     void typesOfTranslationTest(TypesOfTranslation testData) {
         //Предусловие
         Selenide.open("https://translate.google.com");
